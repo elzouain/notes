@@ -2,7 +2,7 @@ package com.simon.notes.view.options;
 
 import com.simon.notes.controller.Controller;
 
-public class MenuOption implements StandardOption{
+public abstract class MenuOption{
     
     private String title;
 
@@ -14,10 +14,5 @@ public class MenuOption implements StandardOption{
         this.title = title;
     }
 
-    @Override
-    public void execute(Controller controller) {
-        // TODO Auto-generated method stub
-        
-    }
-
+    public abstract void execute(Controller controller);
 }

@@ -7,7 +7,7 @@ import com.simon.notes.view.options.EditNoteOption;
 import com.simon.notes.view.options.QuitOption;
 import com.simon.notes.view.options.SwitchUserOption;
 
-public class MainMenuView extends View implements StandardView{
+public class MainMenuView extends View{
 
     public MainMenuView(){
         setTitle("Main Menu");
@@ -19,11 +19,4 @@ public class MainMenuView extends View implements StandardView{
         addMenuOption(new QuitOption());
     }
 
-    @Override
-    public void printMenuOptions() {
-        for (int i = 0; i < getMenuOptions().size(); i++) {
-            System.out.format("%d)  %s\n", i, getMenuOptions().get(i).getTitle());
-        }
-    }
-    
 }
