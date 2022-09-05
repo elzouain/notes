@@ -10,12 +10,19 @@ public class Controller {
 
     private View currentView;
     private MainMenuView mainMenuView;
-    private Scanner scanner;    
+    private Scanner scanner;
 
     public void init(){
         scanner = new Scanner(System.in);
         mainMenuView = new MainMenuView();
         showMainMenuView();
+    }
+
+    public void exit(){
+        System.out.print("Would you like to the quit program [Y/N]? ");
+        if(scanner.next().equalsIgnoreCase("Y"))
+            System.exit(0);
+        showMainMenuView();            
     }
 
     public View getCurrentView(){
@@ -35,8 +42,17 @@ public class Controller {
 
     public void selectOption(){
         System.out.print("Select an option: ");
-        int optionIndex = Integer.parseInt(scanner.next());
-        currentView.getMenuOptions().get(optionIndex).execute(this);
+        int optionIndex;
+        try{
+            optionIndex = Integer.parseInt(scanner.next());
+            if(currentView.getMenuOptions().size() <= optionIndex){
+                throw new Exception("Invalid option.");
+            }else{
+                currentView.getMenuOptions().get(optionIndex).execute(this);
+            }
+        }catch(Exception e){
+            System.out.println("Invalid option entered.");
+            selectOption();
+        }
     }
-
 }
