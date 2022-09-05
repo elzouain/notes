@@ -31,7 +31,6 @@
       <artifactId>sqlite-jdbc</artifactId>
       <version>3.36.0.3</version>
     </dependency>
-
   </dependencies>
 
   <build>
@@ -82,7 +81,6 @@
           <version>3.1.0</version>
           <executions>
             <execution>
-              ...
               <goals>
                 <goal>java</goal>
               </goals>
@@ -90,20 +88,8 @@
           </executions>
           <configuration>
             <mainClass>com.simon.notes.App</mainClass>
-            <arguments>
-              <argument>argument1</argument>
-              ...
-            </arguments>
-            <systemProperties>
-              <systemProperty>
-                <!-- key>myproperty</key -->
-                <!-- value>myvalue</value -->
-              </systemProperty>
-              ...
-            </systemProperties>
           </configuration>
         </plugin>
-
       </plugins>
     </pluginManagement>
   </build>

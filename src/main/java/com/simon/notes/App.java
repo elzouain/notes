@@ -1,13 +1,12 @@
 package com.simon.notes;
 
-/**
- * Hello world!
- *
- */
+import com.simon.notes.controller.Controller;
+
 public class App 
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        Controller controller = new Controller();
+        controller.init();
     }
 }
