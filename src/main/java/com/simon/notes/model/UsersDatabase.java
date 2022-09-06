@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import com.simon.notes.users.User;
+
 public class UsersDatabase extends Database{
 
     public UsersDatabase(){
@@ -35,16 +37,20 @@ public class UsersDatabase extends Database{
         }
     }
 
-    public void insertIntoUsersTable(int id, String username, String creationDate){
+    public void insertIntoUsersTable(long id, String username, String creationDate){
         try{
             PreparedStatement preparedStatement = getConnection().prepareStatement(UsersQuery.INSERT_INTO_QUERY);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setLong(1, id);
             preparedStatement.setString(2, username);
             preparedStatement.setString(3, creationDate);
             preparedStatement.executeUpdate();
         }catch(Exception e){
             throw new RuntimeException("Error inserting user into users table.", e);
         }
+    }
+
+    public void insertIntoUsersTable(User user){
+        insertIntoUsersTable(user.getId(), user.getName(), user.getCreationDate());
     }
 
     public int countUsers(){
