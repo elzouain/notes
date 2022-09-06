@@ -2,17 +2,23 @@ package com.simon.notes.controller;
 
 import java.util.Scanner;
 
+import javax.naming.SizeLimitExceededException;
+
 import com.simon.notes.controller.common.ConsoleUtils;
+import com.simon.notes.model.UsersDatabase;
 import com.simon.notes.view.MainMenuView;
 import com.simon.notes.view.View;
 
 public class Controller {
 
+    private UsersDatabase usersDatabase;
     private View currentView;
     private MainMenuView mainMenuView;
     private Scanner scanner;
 
     public void init(){
+        UsersDatabase usersDatabase = new UsersDatabase();
+        usersDatabase.connect();
         scanner = new Scanner(System.in);
         mainMenuView = new MainMenuView();
         showMainMenuView();
@@ -45,13 +51,16 @@ public class Controller {
         int optionIndex;
         try{
             optionIndex = Integer.parseInt(scanner.next());
-            if(currentView.getMenuOptions().size() <= optionIndex){
-                throw new Exception("Invalid option.");
+            if(optionIndex < 0 &&  optionIndex >= currentView.getMenuOptions().size()){
+                throw new SizeLimitExceededException();
             }else{
                 currentView.getMenuOptions().get(optionIndex).execute(this);
             }
-        }catch(Exception e){
-            System.out.println("Invalid option entered.");
+        }catch(SizeLimitExceededException e){
+            System.out.println("Invalid option entered. Select a number within range.");
+            selectOption();
+        }catch(RuntimeException e){
+            System.out.println("Error found:" + e.getMessage());
             selectOption();
         }
     }
