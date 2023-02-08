@@ -13,7 +13,7 @@ public class Database {
     
     public Database(String name){
         this.name = name;
-        path = System.getProperty("user.dir") + "/src/main/resources/db/" + name;
+        path = System.getProperty("user.dir") + "/" + name;
         URL = "jdbc:sqlite:" + path;
         
     }
