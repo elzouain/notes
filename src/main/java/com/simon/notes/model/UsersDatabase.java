@@ -92,7 +92,8 @@ public class UsersDatabase extends Database{
         }
     }
     
-    public void printAvailableUsers() throws SQLException {
+    public List<String> printAvailableUsers() throws SQLException {
+    	List<String> userNames = new ArrayList();
     	Statement statement = null;
     	ResultSet resultSet = null;
         try{
@@ -104,21 +105,43 @@ public class UsersDatabase extends Database{
 	            while(resultSet.next()) {
 	            	System.out.printf("%d) %s\n", userCount, resultSet.getString(2));
 	            	++userCount;
+	            	userNames.add(resultSet.getString(2));
 	            }
             }else {
             	System.out.println("No users found.");
             }
             StringUtils.printSeparatorLines();
+            return userNames;
         }catch(Exception e){
             throw new RuntimeException("Error retrieving usernames from DB:", e);
         }finally {
         	if(statement != null)
         		statement.close();
         	if(resultSet != null)
-        		resultSet.close();        
+        		resultSet.close();
         }
     }
-
+    
+    public User selectUserByUsername(String username) throws SQLException {
+    	Statement statement = null;
+    	ResultSet resultSet = null;
+        try{
+        	createUsersTable();
+        	statement = getConnection().createStatement();
+            resultSet = statement.executeQuery(UsersQuery.SELECT_USER_BY_USERNAME_QUERY + "='" + username + "'");
+            while(resultSet.next()) {
+            	return new User(resultSet.getLong(1), resultSet.getString(2), resultSet.getString(3)); 
+            }
+        }catch(Exception e){
+            throw new RuntimeException("Error retrieving usernames from DB:", e);
+        }finally {
+        	if(statement != null)
+        		statement.close();
+        	if(resultSet != null)
+        		resultSet.close();
+        }
+		return null;
+    }
 
     public static class UsersQuery{
         public static final String TABLE_NAME = "users";
@@ -129,6 +152,6 @@ public class UsersDatabase extends Database{
         public static final String COUNT_USERS_QUERY = String.format("SELECT COUNT(*) FROM %s;", TABLE_NAME);
         public static final String INSERT_INTO_QUERY = String.format("INSERT INTO %s (%s,%s,%s) VALUES (?,?,?);", TABLE_NAME, ID_COL, USERNAME_COL, CREATION_DATE_COL);
         public static final String SELECT_ALL_USERS_QUERY = String.format("SELECT * FROM %s;", TABLE_NAME);
+        public static final String SELECT_USER_BY_USERNAME_QUERY = String.format("SELECT * FROM %s WHERE %s=", TABLE_NAME, USERNAME_COL);
     }
-    
 }

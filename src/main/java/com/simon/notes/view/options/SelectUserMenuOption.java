@@ -1,10 +1,9 @@
 package com.simon.notes.view.options;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import com.simon.notes.controller.Controller;
-import com.simon.notes.controller.common.ConsoleUtils;
-import com.simon.notes.controller.common.StringUtils;
 import com.simon.notes.view.LogInMenuView;
 import com.simon.notes.view.options.StandardOption;
 
@@ -17,19 +16,20 @@ public class SelectUserMenuOption extends MenuOption implements StandardOption  
 	@Override
 	public void execute(Controller controller) {
     	try {
-    		controller.getUsersDatabase().printAvailableUsers();
+    		List<String> availableUserNames = controller.getUsersDatabase().printAvailableUsers();
     		if(controller.getUsersDatabase().countUsers() == 0) {
     			if(controller.getCurrentView().getClass().equals(LogInMenuView.class)) {   			
     				controller.getCurrentView().getMenuOptions().remove(0);
-    				ConsoleUtils.clear();
-    				System.out.println("Please create a new user.");
-    				StringUtils.printSeparatorLines();
     				controller.showLogInMenuView();    				
     			}else {
     				controller.showSwitchUserMenuView();	
     			} 		
     			
     		}else {
+    	    	System.out.print("Please select the user: ");
+    			int userIndex = Integer.parseInt(controller.getScanner().next().trim()) - 1;
+    			controller.setCurrentUser(controller.getUsersDatabase().selectUserByUsername(availableUserNames.get(userIndex)));
+    			System.out.printf("Welcome back, %s\n", controller.getCurrentUser().getName());
     			controller.showMainMenuView();
     		}
     	}catch(SQLException e) {

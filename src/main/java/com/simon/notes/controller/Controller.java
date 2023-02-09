@@ -5,12 +5,15 @@ import java.util.Scanner;
 import javax.naming.SizeLimitExceededException;
 
 import com.simon.notes.controller.common.ConsoleUtils;
+import com.simon.notes.controller.common.StringUtils;
 import com.simon.notes.model.UsersDatabase;
+import com.simon.notes.users.User;
 import com.simon.notes.view.*;
 
 
 public class Controller {
 
+	private User currentUser;
     private UsersDatabase usersDatabase;
     private View currentView;
     private Scanner scanner;
@@ -52,12 +55,21 @@ public class Controller {
     	return usersDatabase;
     }
     
+    public User getCurrentUser() {
+    	return currentUser;
+    }
+    
+    public void setCurrentUser(User user) {
+    	currentUser = user;
+    }
+    
     public View getCurrentView(){
         return currentView;
     }
     
     public void clearAndDisplayOptions() {
         ConsoleUtils.clear();
+        StringUtils.printSeparatorLines();
         currentView.printMenuOptions();
         selectOption();
     }

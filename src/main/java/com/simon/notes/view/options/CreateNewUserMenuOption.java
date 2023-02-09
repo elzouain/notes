@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import com.simon.notes.controller.Controller;
 import com.simon.notes.controller.common.ConsoleUtils;
 import com.simon.notes.users.User;
+import com.simon.notes.view.LogInMenuView;
 
 public class CreateNewUserMenuOption extends MenuOption implements StandardOption {
 	
@@ -23,6 +24,10 @@ public class CreateNewUserMenuOption extends MenuOption implements StandardOptio
     		System.out.printf("Unable to create user with name '%s'.\n", name);
     	}
     	ConsoleUtils.clear();
-    	controller.showSwitchUserMenuView();
+    	if(controller.getCurrentView().getClass().equals(LogInMenuView.class)) {
+    		controller.showLogInMenuView();
+    	}else {
+    		controller.showSwitchUserMenuView();
+    	}
 	}
 }
