@@ -5,13 +5,11 @@ import com.simon.notes.controller.Controller;
 public class SwitchUserOption extends MenuOption{
 
     public SwitchUserOption(){
-        setTitle("Switch user");
+        setTitle("Switch User");
     }
 
     @Override
     public void execute(Controller controller) {
-        // TODO Auto-generated method stub
-        
-    }
-    
+    	controller.showSwitchUserMenuView();        
+    }    
 }
