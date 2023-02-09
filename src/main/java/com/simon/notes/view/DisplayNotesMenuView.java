@@ -1,16 +1,11 @@
 package com.simon.notes.view;
 
+import com.simon.notes.view.options.ReturnToMainMenuOption;
+
 public class DisplayNotesMenuView  extends View implements StandardView{
 
     public DisplayNotesMenuView(){
         setTitle("Display Notes Menu");
+        addMenuOption(new ReturnToMainMenuOption());
     }
-
-    @Override
-    public void printMenuOptions() {
-        for (int i = 0; i < getMenuOptions().size(); i++) {
-            System.out.format("%d)  %s\n", i, getMenuOptions().get(i).getTitle());
-        } 
-    }
-    
 }

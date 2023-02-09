@@ -16,5 +16,4 @@ public class ConsoleUtils {
             System.out.println(e);
         }
     }
-
 }

@@ -5,46 +5,101 @@ import java.util.Scanner;
 import javax.naming.SizeLimitExceededException;
 
 import com.simon.notes.controller.common.ConsoleUtils;
+import com.simon.notes.controller.common.StringUtils;
 import com.simon.notes.model.UsersDatabase;
-import com.simon.notes.view.MainMenuView;
-import com.simon.notes.view.View;
+import com.simon.notes.users.User;
+import com.simon.notes.view.*;
+
 
 public class Controller {
 
+	private User currentUser;
     private UsersDatabase usersDatabase;
     private View currentView;
-    private MainMenuView mainMenuView;
     private Scanner scanner;
+    private AddNoteMenuView addNoteMenuView;
+    private DisplayNotesMenuView displayNotesMenuView;
+    private LogInMenuView logInMenuView;
+    private MainMenuView mainMenuView;   
+    private SwitchUserMenuView switchUserMenuView;    
 
-    public void init(){
-        UsersDatabase usersDatabase = new UsersDatabase();
-        usersDatabase.connect();
-        scanner = new Scanner(System.in);
+    public void init(){       
+        addNoteMenuView = new AddNoteMenuView();
+        displayNotesMenuView = new DisplayNotesMenuView();
+        logInMenuView = new LogInMenuView();
         mainMenuView = new MainMenuView();
-        showMainMenuView();
+        scanner = new Scanner(System.in);
+        switchUserMenuView = new SwitchUserMenuView();
+        usersDatabase = new UsersDatabase();
+        usersDatabase.connect();
+        showLogInMenuView();
     }
 
-    public void exit(){
+    public void exit() {
         System.out.print("Would you like to the quit program [Y/N]? ");
-        if(scanner.next().equalsIgnoreCase("Y"))
-            System.exit(0);
+        if(scanner.next().equalsIgnoreCase("Y")) {
+        	if(usersDatabase != null) {
+        		usersDatabase.close();
+        	}
+        	System.exit(0);
+        }
         showMainMenuView();            
     }
-
+    
+      
+    public Scanner getScanner(){
+        return scanner;
+    }
+    
+    public UsersDatabase getUsersDatabase() {
+    	return usersDatabase;
+    }
+    
+    public User getCurrentUser() {
+    	return currentUser;
+    }
+    
+    public void setCurrentUser(User user) {
+    	currentUser = user;
+    }
+    
     public View getCurrentView(){
         return currentView;
     }
-
-    public Scanner getScanner(){
-        return scanner;
+    
+    public void clearAndDisplayOptions() {
+        ConsoleUtils.clear();
+        StringUtils.printSeparatorLines();
+        currentView.printMenuOptions();
+        selectOption();
+    }
+    
+    
+    public void showAddNoteMenuView() {
+    	currentView = addNoteMenuView;
+    	clearAndDisplayOptions();
+    }
+    
+    public void showDisplayNotesMenuView() {
+    	currentView = displayNotesMenuView;
+    	clearAndDisplayOptions();
+    }
+    
+    public void showLogInMenuView() {
+    	currentView = logInMenuView;
+    	clearAndDisplayOptions();
     }
         
     public void showMainMenuView(){
         currentView = mainMenuView;
-        ConsoleUtils.clear();
-        mainMenuView.printMenuOptions();
-        selectOption();
+        clearAndDisplayOptions();
     }
+    
+    public void showSwitchUserMenuView() {
+    	currentView = switchUserMenuView;
+    	clearAndDisplayOptions();
+    }
+        
 
     public void selectOption(){
         System.out.print("Select an option: ");
@@ -60,7 +115,7 @@ public class Controller {
             System.out.println("Invalid option entered. Select a number within range.");
             selectOption();
         }catch(RuntimeException e){
-            System.out.println("Error found:" + e.getMessage());
+        	e.printStackTrace();
             selectOption();
         }
     }

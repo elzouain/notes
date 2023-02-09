@@ -5,7 +5,7 @@ import com.simon.notes.controller.Controller;
 public class AddNoteOption extends MenuOption{
     
     public AddNoteOption(){
-        setTitle("Add note");
+        setTitle("Add Note");
     }
 
     @Override
