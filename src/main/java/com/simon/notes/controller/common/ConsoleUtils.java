@@ -7,7 +7,7 @@ public class ConsoleUtils {
             String operatingSystem = System.getProperty("os.name"); //Check the current operating system
             ProcessBuilder pb;
             if(operatingSystem.contains("Windows")){        
-                pb = new ProcessBuilder("cmd", "/c", "cls");
+                pb = new ProcessBuilder("cmd", "/c", "clear");
             } else {
                 pb = new ProcessBuilder("clear");
             }

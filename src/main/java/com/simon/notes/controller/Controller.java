@@ -69,6 +69,8 @@ public class Controller {
     
     public void clearAndDisplayOptions() {
         ConsoleUtils.clear();
+        if(currentUser != null)
+        	System.out.println("Current user: " + currentUser.getName());
         StringUtils.printSeparatorLines();
         currentView.printMenuOptions();
         selectOption();
