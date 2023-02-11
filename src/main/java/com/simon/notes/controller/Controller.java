@@ -67,10 +67,12 @@ public class Controller {
         return currentView;
     }
     
-    public void clearAndDisplayOptions() {
-        ConsoleUtils.clear();
+    public void printCurrentUser() {
         if(currentUser != null)
-        	System.out.println("Current user: " + currentUser.getName());
+        	System.out.println("Current user: " + currentUser.getName());    	
+    }
+    
+    public void displayOptions() {
         StringUtils.printSeparatorLines();
         currentView.printMenuOptions();
         selectOption();
@@ -79,27 +81,40 @@ public class Controller {
     
     public void showAddNoteMenuView() {
     	currentView = addNoteMenuView;
-    	clearAndDisplayOptions();
+    	ConsoleUtils.clear();
+    	printCurrentUser();
+    	displayOptions();
     }
     
     public void showDisplayNotesMenuView() {
     	currentView = displayNotesMenuView;
-    	clearAndDisplayOptions();
+    	ConsoleUtils.clear();
+    	printCurrentUser();
+    	currentUser.printNotes();
+        StringUtils.printSeparatorLines();
+        currentView.printMenuOptions();
+        selectOption();
     }
     
     public void showLogInMenuView() {
     	currentView = logInMenuView;
-    	clearAndDisplayOptions();
+    	ConsoleUtils.clear();
+    	printCurrentUser();
+    	displayOptions();
     }
         
     public void showMainMenuView(){
         currentView = mainMenuView;
-        clearAndDisplayOptions();
+    	ConsoleUtils.clear();
+    	printCurrentUser();
+    	displayOptions();
     }
     
     public void showSwitchUserMenuView() {
     	currentView = switchUserMenuView;
-    	clearAndDisplayOptions();
+    	ConsoleUtils.clear();
+    	printCurrentUser();
+    	displayOptions();
     }
         
 

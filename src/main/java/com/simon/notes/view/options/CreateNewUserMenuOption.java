@@ -22,7 +22,7 @@ public class CreateNewUserMenuOption extends MenuOption implements StandardOptio
     	try {
     		user = controller.getUsersDatabase().selectUserByUsername(name);
         	if(user == null)
-        		controller.getUsersDatabase().insertIntoUsersTable(new User(name));
+        		controller.getUsersDatabase().insertUser(new User(name));
         	else
         		System.out.println("User already exists: " + name);
         	ConsoleUtils.clear();
