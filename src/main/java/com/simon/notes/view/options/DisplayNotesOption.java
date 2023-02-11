@@ -13,11 +13,6 @@ public class DisplayNotesOption extends MenuOption{
 
     @Override
     public void execute(Controller controller) {
-    	try {
-    		controller.getUsersDatabase().printAvailableUsers();
-    	}catch(SQLException e) {
-    		e.printStackTrace();
-    	}
         controller.showDisplayNotesMenuView();
     }
 }
