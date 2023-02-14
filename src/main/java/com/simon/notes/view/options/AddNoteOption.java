@@ -1,6 +1,7 @@
 package com.simon.notes.view.options;
 
 import java.sql.SQLException;
+import java.util.Scanner;
 
 import com.simon.notes.controller.Controller;
 import com.simon.notes.controller.common.ConsoleUtils;
@@ -17,7 +18,7 @@ public class AddNoteOption extends MenuOption{
     public void execute(Controller controller) {
     	ConsoleUtils.clear();
     	System.out.print("Type note: ");
-    	String text = controller.getScanner().next();
+    	String text = new Scanner(System.in).nextLine();
     	try {
         	User currentUser = controller.getCurrentUser(); 
         	currentUser.getNoteKeeper().add(new Note(text));
@@ -25,8 +26,7 @@ public class AddNoteOption extends MenuOption{
         	controller.setCurrentUser(controller.getUsersDatabase().selectUserByUsername(currentUser.getName()));
     	}catch(SQLException e) {
     		e.printStackTrace();
-    	}   	    	
-    	// TODO: Add notes to the DB
+    	}
     	controller.showDisplayNotesMenuView();
     }
 }

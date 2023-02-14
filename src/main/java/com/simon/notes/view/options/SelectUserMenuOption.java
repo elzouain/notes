@@ -2,6 +2,7 @@ package com.simon.notes.view.options;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Scanner;
 
 import com.simon.notes.controller.Controller;
 import com.simon.notes.view.LogInMenuView;
@@ -36,7 +37,7 @@ public class SelectUserMenuOption extends MenuOption implements StandardOption  
 	  	try {
     		List<String> availableUserNames = controller.getUsersDatabase().printAvailableUsers();
 	    	System.out.print("Please select the user: ");
-			int userIndex = Integer.parseInt(controller.getScanner().next().trim()) - 1;
+			int userIndex = Integer.parseInt(new Scanner(System.in).next().trim()) - 1;
 			controller.setCurrentUser(controller.getUsersDatabase().selectUserByUsername(availableUserNames.get(userIndex)));
 			System.out.printf("Welcome back, %s\n", controller.getCurrentUser().getName());
     	}catch(SQLException e) {

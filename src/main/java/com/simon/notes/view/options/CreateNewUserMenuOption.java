@@ -1,6 +1,7 @@
 package com.simon.notes.view.options;
 
 import java.sql.SQLException;
+import java.util.Scanner;
 
 import com.simon.notes.controller.Controller;
 import com.simon.notes.controller.common.ConsoleUtils;
@@ -17,7 +18,7 @@ public class CreateNewUserMenuOption extends MenuOption implements StandardOptio
 	public void execute(Controller controller) {
     	ConsoleUtils.clear();
     	System.out.print("Please enter a name: ");
-    	String name = controller.getScanner().next().trim();
+    	String name = new Scanner(System.in).next().trim();
     	User user = null;
     	try {
     		user = controller.getUsersDatabase().selectUserByUsername(name);
