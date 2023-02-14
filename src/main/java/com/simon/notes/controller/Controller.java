@@ -1,8 +1,12 @@
 package com.simon.notes.controller;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import javax.naming.SizeLimitExceededException;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.simon.notes.controller.common.ConsoleUtils;
 import com.simon.notes.controller.common.StringUtils;
@@ -12,12 +16,14 @@ import com.simon.notes.view.*;
 
 
 public class Controller {
+	
+	public static final Logger LOG = LogManager.getLogger(Controller.class); 
 
 	private User currentUser;
     private UsersDatabase usersDatabase;
     private View currentView;
-    private Scanner scanner;
     private AddNoteMenuView addNoteMenuView;
+    private DeleteNotesMenuView deleteNoteMenuView;
     private DisplayNotesMenuView displayNotesMenuView;
     private LogInMenuView logInMenuView;
     private MainMenuView mainMenuView;   
@@ -25,10 +31,10 @@ public class Controller {
 
     public void init(){       
         addNoteMenuView = new AddNoteMenuView();
+        deleteNoteMenuView = new DeleteNotesMenuView();
         displayNotesMenuView = new DisplayNotesMenuView();
         logInMenuView = new LogInMenuView();
         mainMenuView = new MainMenuView();
-        scanner = new Scanner(System.in);
         switchUserMenuView = new SwitchUserMenuView();
         usersDatabase = new UsersDatabase();
         usersDatabase.connect();
@@ -37,7 +43,7 @@ public class Controller {
 
     public void exit() {
         System.out.print("Would you like to the quit program [Y/N]? ");
-        if(scanner.next().equalsIgnoreCase("Y")) {
+        if(new Scanner(System.in).next().equalsIgnoreCase("Y")) {
         	if(usersDatabase != null) {
         		usersDatabase.close();
         	}
@@ -46,10 +52,6 @@ public class Controller {
         showMainMenuView();            
     }
     
-      
-    public Scanner getScanner(){
-        return scanner;
-    }
     
     public UsersDatabase getUsersDatabase() {
     	return usersDatabase;
@@ -84,6 +86,28 @@ public class Controller {
     	ConsoleUtils.clear();
     	printCurrentUser();
     	displayOptions();
+    }
+    
+    public void showDeleteNotesMenuView() {
+    	currentView = deleteNoteMenuView;
+    	ConsoleUtils.clear();
+    	printCurrentUser();
+    	currentUser.printNotes();
+        StringUtils.printSeparatorLines();
+        if(currentUser.getNoteKeeper().size() > 0) {        	
+		    System.out.print("Please select which note to delete: ");
+		    try {
+		        int noteIndex = Integer.parseInt(new Scanner(System.in).next());
+		        currentUser.getNoteKeeper().remove(noteIndex);
+		    	usersDatabase.updateUserNotes(currentUser);
+		    }catch(NumberFormatException e) {
+		    	System.out.println("Invalid option...");
+		    }catch(SQLException e) {
+		    	LOG.error("Note delete error", e);
+		    	e.printStackTrace();
+		    }
+        }
+        showDisplayNotesMenuView();
     }
     
     public void showDisplayNotesMenuView() {
@@ -122,7 +146,7 @@ public class Controller {
         System.out.print("Select an option: ");
         int optionIndex;
         try{
-            optionIndex = Integer.parseInt(scanner.next());
+            optionIndex = new Scanner(System.in).nextInt();
             if(optionIndex < 0 &&  optionIndex >= currentView.getMenuOptions().size()){
                 throw new SizeLimitExceededException();
             }else{
@@ -132,7 +156,7 @@ public class Controller {
             System.out.println("Invalid option entered. Select a number within range.");
             selectOption();
         }catch(RuntimeException e){
-        	e.printStackTrace();
+        	LOG.error("Selection error found.", e);
             selectOption();
         }
     }

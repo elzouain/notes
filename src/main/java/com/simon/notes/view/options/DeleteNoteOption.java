@@ -10,8 +10,6 @@ public class DeleteNoteOption extends MenuOption{
 
     @Override
     public void execute(Controller controller) {
-        // TODO Auto-generated method stub
-        
+    	controller.showDeleteNotesMenuView();
     }
-    
 }

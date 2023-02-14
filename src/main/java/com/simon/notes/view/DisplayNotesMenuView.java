@@ -5,7 +5,7 @@ import com.simon.notes.view.options.ReturnToMainMenuOption;
 public class DisplayNotesMenuView  extends View implements StandardView{
 
     public DisplayNotesMenuView(){
-        setTitle("Display Notes Menu");
-        addMenuOption(new ReturnToMainMenuOption());
+        this.setTitle("Display Notes Menu");
+        this.addMenuOption(new ReturnToMainMenuOption());
     }
 }

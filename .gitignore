@@ -1,7 +1,14 @@
+### MAVEN ###
 /target
 
+### COMPILATION ###
 .classpath
 .project
 .settings/
 
+### DATABASE ###
 *.db
+
+### LOGGING ###
+*.log
+
