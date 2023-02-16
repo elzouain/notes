@@ -4,8 +4,8 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import com.simon.notes.controller.Controller;
-import com.simon.notes.controller.common.ConsoleUtils;
 import com.simon.notes.users.User;
+import com.simon.notes.utils.ConsoleUtils;
 import com.simon.notes.view.LogInMenuView;
 
 public class CreateNewUserMenuOption extends MenuOption implements StandardOption {
@@ -18,7 +18,7 @@ public class CreateNewUserMenuOption extends MenuOption implements StandardOptio
 	public void execute(Controller controller) {
     	ConsoleUtils.clear();
     	System.out.print("Please enter a name: ");
-    	String name = new Scanner(System.in).next().trim();
+    	String name = new Scanner(System.in).nextLine().trim();
     	User user = null;
     	try {
     		user = controller.getUsersDatabase().selectUserByUsername(name);

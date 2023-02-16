@@ -1,6 +1,8 @@
 package com.simon.notes.controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.naming.SizeLimitExceededException;
@@ -8,10 +10,11 @@ import javax.naming.SizeLimitExceededException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.simon.notes.controller.common.ConsoleUtils;
-import com.simon.notes.controller.common.StringUtils;
 import com.simon.notes.model.UsersDatabase;
+import com.simon.notes.users.Note;
 import com.simon.notes.users.User;
+import com.simon.notes.utils.ConsoleUtils;
+import com.simon.notes.utils.StringUtils;
 import com.simon.notes.view.*;
 
 
@@ -25,6 +28,7 @@ public class Controller {
     private AddNoteMenuView addNoteMenuView;
     private DeleteNotesMenuView deleteNoteMenuView;
     private DisplayNotesMenuView displayNotesMenuView;
+    private EditNoteMenuView editNoteMenuView;
     private LogInMenuView logInMenuView;
     private MainMenuView mainMenuView;   
     private SwitchUserMenuView switchUserMenuView;    
@@ -33,6 +37,7 @@ public class Controller {
         addNoteMenuView = new AddNoteMenuView();
         deleteNoteMenuView = new DeleteNotesMenuView();
         displayNotesMenuView = new DisplayNotesMenuView();
+        editNoteMenuView = new EditNoteMenuView();
         logInMenuView = new LogInMenuView();
         mainMenuView = new MainMenuView();
         switchUserMenuView = new SwitchUserMenuView();
@@ -103,8 +108,7 @@ public class Controller {
 		    }catch(NumberFormatException e) {
 		    	System.out.println("Invalid option...");
 		    }catch(SQLException e) {
-		    	LOG.error("Note delete error", e);
-		    	e.printStackTrace();
+		    	LOG.error("NOTE DELETE ERROR", e);
 		    }
         }
         showDisplayNotesMenuView();
@@ -118,6 +122,30 @@ public class Controller {
         StringUtils.printSeparatorLines();
         currentView.printMenuOptions();
         selectOption();
+    }
+    
+    public void showEditNoteMenuView() {
+    	currentView = editNoteMenuView;
+    	ConsoleUtils.clear();
+    	printCurrentUser();
+    	currentUser.printNotes();
+    	StringUtils.printSeparatorLines();
+        if(currentUser.getNoteKeeper().size() > 0) {
+		    List<Note> noteKeeperBefore = new ArrayList(currentUser.getNoteKeeper()); 
+		    try {
+		    	Scanner scanner = new Scanner(System.in);
+		    	System.out.print("Please select note to edit: ");
+		        Note targetNote = currentUser.getNoteKeeper().get(Integer.parseInt(scanner.nextLine()));
+		        System.out.printf("Updating \"%s\"\n", targetNote.getText());
+		        System.out.print("Please type the new content: ");    
+		        targetNote.setText(scanner.nextLine());
+		    	usersDatabase.updateUserNotes(currentUser);
+		    }catch(SQLException e) {
+		    	LOG.error("NOTE UPDATE ERROR", e);
+		    	currentUser.setNoteKeeper(noteKeeperBefore);
+		    }
+        }
+        showDisplayNotesMenuView();
     }
     
     public void showLogInMenuView() {
