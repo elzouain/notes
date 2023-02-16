@@ -1,4 +1,4 @@
-package com.simon.notes.controller.common;
+package com.simon.notes.utils;
 
 public class StringUtils {
 

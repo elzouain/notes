@@ -58,6 +58,10 @@ public class User {
         this.name = name;
     }
     
+    public void setNoteKeeper(List<Note> noteKeeper) {
+    	this.noteKeeper = noteKeeper;
+    }
+    
     public void printNotes() {
     	System.out.println("Notes:");
     	if(noteKeeper.size() == 0) {

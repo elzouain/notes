@@ -3,7 +3,7 @@ package com.simon.notes.view.options;
 import java.sql.SQLException;
 
 import com.simon.notes.controller.Controller;
-import com.simon.notes.controller.common.ConsoleUtils;
+import com.simon.notes.utils.ConsoleUtils;
 
 public class DisplayNotesOption extends MenuOption{
     

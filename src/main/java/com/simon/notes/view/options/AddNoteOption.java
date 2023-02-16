@@ -4,9 +4,9 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import com.simon.notes.controller.Controller;
-import com.simon.notes.controller.common.ConsoleUtils;
 import com.simon.notes.users.Note;
 import com.simon.notes.users.User;
+import com.simon.notes.utils.ConsoleUtils;
 
 public class AddNoteOption extends MenuOption{
     

@@ -11,9 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.simon.notes.controller.common.StringUtils;
 import com.simon.notes.users.Note;
 import com.simon.notes.users.User;
+import com.simon.notes.utils.StringUtils;
 
 public class UsersDatabase extends Database{
 
