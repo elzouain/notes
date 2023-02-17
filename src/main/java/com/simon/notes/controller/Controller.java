@@ -1,8 +1,5 @@
 package com.simon.notes.controller;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import javax.naming.SizeLimitExceededException;
@@ -11,11 +8,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.simon.notes.model.UsersDatabase;
-import com.simon.notes.users.Note;
 import com.simon.notes.users.User;
-import com.simon.notes.utils.ConsoleUtils;
 import com.simon.notes.utils.StringUtils;
-import com.simon.notes.view.*;
+import com.simon.notes.view.options.LogInOption;
+import com.simon.notes.view.options.MainMenuOption;
+import com.simon.notes.view.options.MenuOption;
+import com.simon.notes.views.*;
 
 
 public class Controller {
@@ -25,25 +23,31 @@ public class Controller {
 	private User currentUser;
     private UsersDatabase usersDatabase;
     private View currentView;
-    private AddNoteMenuView addNoteMenuView;
-    private DeleteNotesMenuView deleteNoteMenuView;
-    private DisplayNotesMenuView displayNotesMenuView;
-    private EditNoteMenuView editNoteMenuView;
-    private LogInMenuView logInMenuView;
-    private MainMenuView mainMenuView;   
-    private SwitchUserMenuView switchUserMenuView;    
-
-    public void init(){       
-        addNoteMenuView = new AddNoteMenuView();
-        deleteNoteMenuView = new DeleteNotesMenuView();
-        displayNotesMenuView = new DisplayNotesMenuView();
-        editNoteMenuView = new EditNoteMenuView();
-        logInMenuView = new LogInMenuView();
-        mainMenuView = new MainMenuView();
-        switchUserMenuView = new SwitchUserMenuView();
+    
+    public User getCurrentUser() {
+    	return currentUser;
+    }
+    
+    public View getCurrentView(){
+        return currentView;
+    }
+    
+    public UsersDatabase getUsersDatabase() {
+    	return usersDatabase;
+    }
+    
+    public void setCurrentUser(User user) {
+    	currentUser = user;
+    }   
+    
+    public void setCurrentView(View view) {
+    	this.currentView = view;
+    }
+    
+    public void init(){
         usersDatabase = new UsersDatabase();
         usersDatabase.connect();
-        showLogInMenuView();
+        new LogInOption().execute(this);
     }
 
     public void exit() {
@@ -54,24 +58,7 @@ public class Controller {
         	}
         	System.exit(0);
         }
-        showMainMenuView();            
-    }
-    
-    
-    public UsersDatabase getUsersDatabase() {
-    	return usersDatabase;
-    }
-    
-    public User getCurrentUser() {
-    	return currentUser;
-    }
-    
-    public void setCurrentUser(User user) {
-    	currentUser = user;
-    }
-    
-    public View getCurrentView(){
-        return currentView;
+        new MainMenuOption().execute(this);
     }
     
     public void printCurrentUser() {
@@ -84,91 +71,6 @@ public class Controller {
         currentView.printMenuOptions();
         selectOption();
     }
-    
-    
-    public void showAddNoteMenuView() {
-    	currentView = addNoteMenuView;
-    	ConsoleUtils.clear();
-    	printCurrentUser();
-    	displayOptions();
-    }
-    
-    public void showDeleteNotesMenuView() {
-    	currentView = deleteNoteMenuView;
-    	ConsoleUtils.clear();
-    	printCurrentUser();
-    	currentUser.printNotes();
-        StringUtils.printSeparatorLines();
-        if(currentUser.getNoteKeeper().size() > 0) {        	
-		    System.out.print("Please select which note to delete: ");
-		    try {
-		        int noteIndex = Integer.parseInt(new Scanner(System.in).next());
-		        currentUser.getNoteKeeper().remove(noteIndex);
-		    	usersDatabase.updateUserNotes(currentUser);
-		    }catch(NumberFormatException e) {
-		    	System.out.println("Invalid option...");
-		    }catch(SQLException e) {
-		    	LOG.error("NOTE DELETE ERROR", e);
-		    }
-        }
-        showDisplayNotesMenuView();
-    }
-    
-    public void showDisplayNotesMenuView() {
-    	currentView = displayNotesMenuView;
-    	ConsoleUtils.clear();
-    	printCurrentUser();
-    	currentUser.printNotes();
-        StringUtils.printSeparatorLines();
-        currentView.printMenuOptions();
-        selectOption();
-    }
-    
-    public void showEditNoteMenuView() {
-    	currentView = editNoteMenuView;
-    	ConsoleUtils.clear();
-    	printCurrentUser();
-    	currentUser.printNotes();
-    	StringUtils.printSeparatorLines();
-        if(currentUser.getNoteKeeper().size() > 0) {
-		    List<Note> noteKeeperBefore = new ArrayList(currentUser.getNoteKeeper()); 
-		    try {
-		    	Scanner scanner = new Scanner(System.in);
-		    	System.out.print("Please select note to edit: ");
-		        Note targetNote = currentUser.getNoteKeeper().get(Integer.parseInt(scanner.nextLine()));
-		        System.out.printf("Updating \"%s\"\n", targetNote.getText());
-		        System.out.print("Please type the new content: ");    
-		        targetNote.setText(scanner.nextLine());
-		    	usersDatabase.updateUserNotes(currentUser);
-		    }catch(SQLException e) {
-		    	LOG.error("NOTE UPDATE ERROR", e);
-		    	currentUser.setNoteKeeper(noteKeeperBefore);
-		    }
-        }
-        showDisplayNotesMenuView();
-    }
-    
-    public void showLogInMenuView() {
-    	currentView = logInMenuView;
-    	ConsoleUtils.clear();
-    	printCurrentUser();
-    	displayOptions();
-    }
-        
-    public void showMainMenuView(){
-        currentView = mainMenuView;
-    	ConsoleUtils.clear();
-    	printCurrentUser();
-    	displayOptions();
-    }
-    
-    public void showSwitchUserMenuView() {
-    	currentView = switchUserMenuView;
-    	ConsoleUtils.clear();
-    	printCurrentUser();
-    	displayOptions();
-    }
-        
 
     public void selectOption(){
         System.out.print("Select an option: ");
@@ -187,5 +89,12 @@ public class Controller {
         	LOG.error("Selection error found.", e);
             selectOption();
         }
+    }
+    
+    public void selectOption(MenuOption option) {
+    	for(MenuOption o:currentView.getMenuOptions()) {
+    		if(o.equals(option))
+    			o.execute(this);
+    	}
     }
 }

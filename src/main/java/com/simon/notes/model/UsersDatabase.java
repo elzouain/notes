@@ -93,8 +93,8 @@ public class UsersDatabase extends Database{
         	if(preparedStatement != null)
         		preparedStatement.close();
         }
-    }   
-    
+    }
+              
     public User selectUserByUsername(String username) throws SQLException {
     	Statement statement = null;
     	ResultSet resultSet = null;
@@ -180,10 +180,8 @@ public class UsersDatabase extends Database{
         }catch(Exception e){
             throw new RuntimeException("Error retrieving usernames from DB:", e);
         }finally {
-        	if(statement != null)
-        		statement.close();
-        	if(resultSet != null)
-        		resultSet.close();
+        	if(statement != null) statement.close();
+        	if(resultSet != null) resultSet.close();
         }
     }   
 

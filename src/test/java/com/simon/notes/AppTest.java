@@ -1,22 +1,25 @@
 package com.simon.notes;
 
-import static org.junit.Assert.assertTrue;
+
+import java.sql.SQLException;
+import java.time.Instant;
 
 import org.junit.Test;
 
+import com.simon.notes.model.UsersDatabase;
+import com.simon.notes.users.User;
 
-/**
- * Unit test for simple App.
- */
+
 public class AppTest 
 {
-    /**
-     * Rigorous Test :-)
-     */
-    @Test
-    public void shouldAnswerWithTrue()
-    {
-        assertTrue( true );
-    }
 
+    @Test
+    public void Should_Create_New_User() throws SQLException
+    {
+        UsersDatabase db = new UsersDatabase();
+        db.connect();
+        User user = new User("testUser" + Instant.now().toEpochMilli());
+        db.insertUser(user);
+        assert db.printAvailableUsers().contains(user.getName()): "Failed to add user.";
+    }
 }

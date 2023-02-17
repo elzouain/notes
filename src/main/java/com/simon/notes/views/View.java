@@ -1,8 +1,9 @@
-package com.simon.notes.view;
+package com.simon.notes.views;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.simon.notes.controller.Controller;
 import com.simon.notes.view.options.MenuOption;
 
 public class View{
@@ -36,5 +37,4 @@ public class View{
             System.out.format("%d)  %s\n", i, getMenuOptions().get(i).getTitle());
         }
     }
-
 }

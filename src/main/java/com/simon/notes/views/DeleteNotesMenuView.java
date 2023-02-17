@@ -1,4 +1,4 @@
-package com.simon.notes.view;
+package com.simon.notes.views;
 
 public class DeleteNotesMenuView extends View implements StandardView {
 

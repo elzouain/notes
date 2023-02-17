@@ -10,8 +10,7 @@ public class ReturnToMainMenuOption extends MenuOption{
 
 	@Override
 	public void execute(Controller controller) {
-		// TODO Auto-generated method stub
-		controller.showMainMenuView();		
+		new MainMenuOption().execute(controller);
 	}
 
 }

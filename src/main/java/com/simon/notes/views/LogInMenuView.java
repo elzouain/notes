@@ -1,4 +1,4 @@
-package com.simon.notes.view;
+package com.simon.notes.views;
 
 import com.simon.notes.view.options.CreateNewUserMenuOption;
 import com.simon.notes.view.options.QuitMenuOption;

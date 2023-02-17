@@ -1,6 +1,8 @@
 package com.simon.notes.view.options;
 
 import com.simon.notes.controller.Controller;
+import com.simon.notes.utils.ConsoleUtils;
+import com.simon.notes.views.SwitchUserMenuView;
 
 public class SwitchUserOption extends MenuOption{
 
@@ -10,6 +12,9 @@ public class SwitchUserOption extends MenuOption{
 
     @Override
     public void execute(Controller controller) {
-    	controller.showSwitchUserMenuView();        
+    	controller.setCurrentView(new SwitchUserMenuView());
+    	ConsoleUtils.clear();
+    	controller.printCurrentUser();
+    	controller.displayOptions();
     }    
 }
