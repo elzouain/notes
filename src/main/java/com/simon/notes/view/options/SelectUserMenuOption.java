@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.simon.notes.controller.Controller;
-import com.simon.notes.view.LogInMenuView;
-import com.simon.notes.view.options.StandardOption;
+import com.simon.notes.views.LogInMenuView;
 
 public class SelectUserMenuOption extends MenuOption implements StandardOption  {
 	
@@ -20,13 +19,13 @@ public class SelectUserMenuOption extends MenuOption implements StandardOption  
     		if(controller.getUsersDatabase().countUsers() == 0) {
     			if(controller.getCurrentView().getClass().equals(LogInMenuView.class)) {   			
     				controller.getCurrentView().getMenuOptions().remove(0);
-    				controller.showLogInMenuView();    				
+    				new LogInOption().execute(controller);		
     			}else {
-    				controller.showSwitchUserMenuView();	
+    				new SwitchUserOption().execute(controller);
     			}
     		}else {
     			assignUser(controller);
-    			controller.showMainMenuView();
+    			new MainMenuOption().execute(controller);
     		}
     	}catch(SQLException e) {
     		e.printStackTrace();

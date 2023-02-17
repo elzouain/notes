@@ -6,7 +6,7 @@ import java.util.Scanner;
 import com.simon.notes.controller.Controller;
 import com.simon.notes.users.User;
 import com.simon.notes.utils.ConsoleUtils;
-import com.simon.notes.view.LogInMenuView;
+import com.simon.notes.views.LogInMenuView;
 
 public class CreateNewUserMenuOption extends MenuOption implements StandardOption {
 	
@@ -29,9 +29,9 @@ public class CreateNewUserMenuOption extends MenuOption implements StandardOptio
         	ConsoleUtils.clear();
         	if(controller.getCurrentView().getClass().equals(LogInMenuView.class) && controller.getCurrentUser() != null) {
         		controller.setCurrentUser(controller.getUsersDatabase().selectUserByUsername(name));
-        		controller.showMainMenuView();
+        		new MainMenuOption().execute(controller);
         	}else {
-        		controller.showSwitchUserMenuView();
+        		new SwitchUserOption().execute(controller);
         	}
     	}catch(SQLException e) {
     		System.out.printf("Unable to create user with name '%s'.\n", name);
