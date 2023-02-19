@@ -22,10 +22,11 @@ public class CreateNewUserMenuOption extends MenuOption implements StandardOptio
     	User user = null;
     	try {
     		user = controller.getUsersDatabase().selectUserByUsername(name);
-        	if(user == null)
+        	if(user == null) {
         		controller.getUsersDatabase().insertUser(new User(name));
-        	else
+        	}else {
         		System.out.println("User already exists: " + name);
+        	}
         	ConsoleUtils.clear();
         	if(controller.getCurrentView().getClass().equals(LogInMenuView.class) && controller.getCurrentUser() != null) {
         		controller.setCurrentUser(controller.getUsersDatabase().selectUserByUsername(name));
@@ -35,6 +36,6 @@ public class CreateNewUserMenuOption extends MenuOption implements StandardOptio
         	}
     	}catch(SQLException e) {
     		System.out.printf("Unable to create user with name '%s'.\n", name);
-    	} 	
+    	}
 	}
 }

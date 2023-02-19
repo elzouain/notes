@@ -2,6 +2,7 @@ package com.simon.notes.views;
 
 import com.simon.notes.view.options.AddNoteOption;
 import com.simon.notes.view.options.DeleteNoteOption;
+import com.simon.notes.view.options.DeleteUserOption;
 import com.simon.notes.view.options.DisplayNotesOption;
 import com.simon.notes.view.options.EditNoteOption;
 import com.simon.notes.view.options.QuitMenuOption;
@@ -16,6 +17,7 @@ public class MainMenuView extends View{
         addMenuOption(new EditNoteOption());
         addMenuOption(new DeleteNoteOption());
         addMenuOption(new SwitchUserOption());
+        addMenuOption(new DeleteUserOption());
         addMenuOption(new QuitMenuOption());
     }
 

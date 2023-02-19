@@ -94,6 +94,21 @@ public class UsersDatabase extends Database{
         		preparedStatement.close();
         }
     }
+    
+    public void deleteUser(String username) throws SQLException {        
+    	PreparedStatement preparedStatement = null;
+        try{
+        	preparedStatement = getConnection().prepareStatement(UsersQuery.DELETE_USER_BY_NAME_QUERY);
+            preparedStatement.setString(1, username);
+            preparedStatement.executeUpdate();
+            System.out.printf("User ['%s'] deleted successfully.\n", username);
+        }catch(Exception e){
+            throw new RuntimeException("Error delete user from users table.", e);
+        }finally {
+        	if(preparedStatement != null)
+        		preparedStatement.close();
+        }
+    }
               
     public User selectUserByUsername(String username) throws SQLException {
     	Statement statement = null;
@@ -194,6 +209,7 @@ public class UsersDatabase extends Database{
         public static final String NOTES_COL = "notes";
         public static final String CREATE_TABLE_QUERY = String.format("CREATE TABLE %s (%s INTEGER, %s VARCHAR, %s VARCHAR, %s VARCHAR);", TABLE_NAME, ID_COL, USERNAME_COL, CREATION_DATE_COL, NOTES_COL);
         public static final String COUNT_USERS_QUERY = String.format("SELECT COUNT(*) FROM %s;", TABLE_NAME);
+        public static final String DELETE_USER_BY_NAME_QUERY = String.format("DELETE FROM %s WHERE %s=?", TABLE_NAME, USERNAME_COL);
         public static final String INSERT_INTO_QUERY = String.format("INSERT INTO %s (%s,%s,%s,%s) VALUES (?,?,?,?);", TABLE_NAME, ID_COL, USERNAME_COL, CREATION_DATE_COL, NOTES_COL);
         public static final String SELECT_ALL_USERS_QUERY = String.format("SELECT * FROM %s;", TABLE_NAME);
         public static final String SELECT_USER_BY_USERNAME_QUERY = String.format("SELECT * FROM %s WHERE %s=", TABLE_NAME, USERNAME_COL);
