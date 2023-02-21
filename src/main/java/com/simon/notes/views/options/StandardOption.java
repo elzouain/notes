@@ -1,4 +1,4 @@
-package com.simon.notes.view.options;
+package com.simon.notes.views.options;
 
 import com.simon.notes.controller.Controller;
 

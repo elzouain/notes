@@ -1,8 +1,8 @@
 package com.simon.notes.views;
 
-import com.simon.notes.view.options.CreateNewUserMenuOption;
-import com.simon.notes.view.options.QuitMenuOption;
-import com.simon.notes.view.options.SelectUserMenuOption;
+import com.simon.notes.views.options.CreateNewUserMenuOption;
+import com.simon.notes.views.options.QuitMenuOption;
+import com.simon.notes.views.options.SelectUserMenuOption;
 
 public class LogInMenuView extends View implements StandardView {
 	

@@ -4,8 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class Database {
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+public class Database {
+	
+	public static final Logger LOG = LogManager.getLogger(Database.class); 
     private String name;
     private String path;
     private String URL;
@@ -29,18 +33,18 @@ public class Database {
     public void connect(){
         try {
             connection = DriverManager.getConnection(URL);
-            System.out.println("Connected successfully.");
+            LOG.info("Connected successfully.");
         } catch (SQLException e) {
-            throw new RuntimeException("Error connecting to the database " + name, e);
+        	LOG.error("Error connecting to the database " + name, e);
         }
     }
 
     public void close(){
         try{
             connection.close();
-            System.out.println("Disconnected successfully.");
+            LOG.info("Disconnected successfully.");
         }catch(Exception e){
-            throw new RuntimeException("Error disconnecting from the database " + name, e);
+        	LOG.error("Error disconnecting to the database " + name, e);
         }
     }
 

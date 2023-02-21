@@ -11,11 +11,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.simon.notes.users.Note;
 import com.simon.notes.users.User;
 import com.simon.notes.utils.StringUtils;
+import com.simon.notes.views.options.DeleteUserOption;
 
 public class UsersDatabase extends Database{
+	
+	public static final Logger LOG = LogManager.getLogger(UsersDatabase.class); 
 
     public UsersDatabase(){
         super("users.db");
@@ -86,7 +92,7 @@ public class UsersDatabase extends Database{
             preparedStatement.setString(3, user.getCreationDate());
             preparedStatement.setString(4, formatNotes(user));
             preparedStatement.executeUpdate();
-            System.out.printf("User ['%s'] created successfully.\n", user.getName());
+            LOG.info(String.format("User ['%s'] created successfully.\n", user.getName()));
         }catch(Exception e){
             throw new RuntimeException("Error inserting user into users table.", e);
         }finally {
@@ -101,7 +107,7 @@ public class UsersDatabase extends Database{
         	preparedStatement = getConnection().prepareStatement(UsersQuery.DELETE_USER_BY_NAME_QUERY);
             preparedStatement.setString(1, username);
             preparedStatement.executeUpdate();
-            System.out.printf("User ['%s'] deleted successfully.\n", username);
+            LOG.info(String.format("User ['%s'] deleted successfully.\n", username));
         }catch(Exception e){
             throw new RuntimeException("Error delete user from users table.", e);
         }finally {
@@ -172,8 +178,8 @@ public class UsersDatabase extends Database{
         }
     }
     
-    public List<String> printAvailableUsers() throws SQLException {
-    	List<String> userNames = new ArrayList();
+    public List<String> selectAllUserNames() throws SQLException{
+       	List<String> userNames = new ArrayList();
     	Statement statement = null;
     	ResultSet resultSet = null;
         try{
@@ -183,14 +189,10 @@ public class UsersDatabase extends Database{
             int userCount = 1;
             if(countUsers() != 0) {
 	            while(resultSet.next()) {
-	            	System.out.printf("%d) %s\n", userCount, resultSet.getString(2));
-	            	++userCount;
 	            	userNames.add(resultSet.getString(2));
+	            	++userCount;
 	            }
-            }else {
-            	System.out.println("No users found.");
             }
-            StringUtils.printSeparatorLines();
             return userNames;
         }catch(Exception e){
             throw new RuntimeException("Error retrieving usernames from DB:", e);
@@ -198,6 +200,17 @@ public class UsersDatabase extends Database{
         	if(statement != null) statement.close();
         	if(resultSet != null) resultSet.close();
         }
+    }
+    
+    public List<String> printAvailableUsers() throws SQLException {
+    	List<String> users = this.selectAllUserNames();
+    	if(users.size() == 0)
+    		System.out.println("No users found.");
+    		
+    	for(int i = 0;i < users.size(); i++)
+        	System.out.printf("%d) %s\n", i, users.get(i));
+    	
+		return users;
     }   
 
 

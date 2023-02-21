@@ -1,12 +1,12 @@
 package com.simon.notes.views;
 
-import com.simon.notes.view.options.AddNoteOption;
-import com.simon.notes.view.options.DeleteNoteOption;
-import com.simon.notes.view.options.DeleteUserOption;
-import com.simon.notes.view.options.DisplayNotesOption;
-import com.simon.notes.view.options.EditNoteOption;
-import com.simon.notes.view.options.QuitMenuOption;
-import com.simon.notes.view.options.SwitchUserOption;
+import com.simon.notes.views.options.AddNoteOption;
+import com.simon.notes.views.options.DeleteNoteOption;
+import com.simon.notes.views.options.DeleteUserOption;
+import com.simon.notes.views.options.DisplayNotesOption;
+import com.simon.notes.views.options.EditNoteOption;
+import com.simon.notes.views.options.QuitMenuOption;
+import com.simon.notes.views.options.SwitchUserOption;
 
 public class MainMenuView extends View{
 

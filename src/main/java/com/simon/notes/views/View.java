@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.simon.notes.controller.Controller;
-import com.simon.notes.view.options.MenuOption;
+import com.simon.notes.views.options.MenuOption;
 
 public class View{
 

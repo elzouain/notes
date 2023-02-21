@@ -1,4 +1,4 @@
-package com.simon.notes.view.options;
+package com.simon.notes.views.options;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -9,6 +9,8 @@ import org.apache.logging.log4j.Logger;
 
 import com.simon.notes.controller.Controller;
 import com.simon.notes.users.User;
+import com.simon.notes.utils.ConsoleUtils;
+import com.simon.notes.utils.StringUtils;
 
 public class DeleteUserOption extends MenuOption implements StandardOption {
 	
@@ -20,6 +22,9 @@ public class DeleteUserOption extends MenuOption implements StandardOption {
 
 	@Override
 	public void execute(Controller controller) {
+		ConsoleUtils.clear();
+    	controller.printCurrentUser();
+        StringUtils.printSeparatorLines();
     	try {
     		if(controller.getUsersDatabase().countUsers() == 0)
     			System.out.println(" -- There are no users --");
@@ -35,6 +40,8 @@ public class DeleteUserOption extends MenuOption implements StandardOption {
 		List<String> availableUserNames = controller.getUsersDatabase().printAvailableUsers();
     	System.out.print("Please select the user: ");
 		int userIndex = Integer.parseInt(new Scanner(System.in).next().trim()) - 1;
+		if(userIndex == -1)
+			userIndex = 0;
 		User user = controller.getUsersDatabase().selectUserByUsername(availableUserNames.get(userIndex));
 		try {
 			if(user.getId() == controller.getCurrentUser().getId())
