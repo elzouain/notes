@@ -1,6 +1,4 @@
-package com.simon.notes.view.options;
-
-import java.sql.SQLException;
+package com.simon.notes.views.options;
 
 import com.simon.notes.controller.Controller;
 import com.simon.notes.utils.ConsoleUtils;
@@ -18,6 +16,7 @@ public class DisplayNotesOption extends MenuOption{
     	controller.setCurrentView(new DisplayNotesMenuView());
     	ConsoleUtils.clear();
     	controller.printCurrentUser();
+        StringUtils.printSeparatorLines();
     	controller.getCurrentUser().printNotes();
         StringUtils.printSeparatorLines();
         controller.getCurrentView().printMenuOptions();

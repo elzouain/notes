@@ -1,6 +1,6 @@
 package com.simon.notes.views;
 
-import com.simon.notes.view.options.ReturnToMainMenuOption;
+import com.simon.notes.views.options.ReturnToMainMenuOption;
 
 public class EditNoteMenuView extends View implements StandardView {
     

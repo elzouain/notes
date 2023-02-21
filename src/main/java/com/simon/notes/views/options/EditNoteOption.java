@@ -1,4 +1,4 @@
-package com.simon.notes.view.options;
+package com.simon.notes.views.options;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,6 +28,7 @@ public class EditNoteOption extends MenuOption{
     	controller.setCurrentView(new EditNoteMenuView());    	
     	ConsoleUtils.clear();
     	controller.printCurrentUser();
+        StringUtils.printSeparatorLines();
     	User currentUser = controller.getCurrentUser();
     	currentUser.printNotes();
     	StringUtils.printSeparatorLines();

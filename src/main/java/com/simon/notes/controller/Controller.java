@@ -10,10 +10,10 @@ import org.apache.logging.log4j.Logger;
 import com.simon.notes.model.UsersDatabase;
 import com.simon.notes.users.User;
 import com.simon.notes.utils.StringUtils;
-import com.simon.notes.view.options.LogInOption;
-import com.simon.notes.view.options.MainMenuOption;
-import com.simon.notes.view.options.MenuOption;
 import com.simon.notes.views.*;
+import com.simon.notes.views.options.LogInOption;
+import com.simon.notes.views.options.MainMenuOption;
+import com.simon.notes.views.options.MenuOption;
 
 
 public class Controller {
@@ -62,8 +62,10 @@ public class Controller {
     }
     
     public void printCurrentUser() {
-        if(currentUser != null)
-        	System.out.println("Current user: " + currentUser.getName());    	
+        if(currentUser != null) {
+        	System.out.println("Current user: " + currentUser.getName());
+        }
+        
     }
     
     public void displayOptions() {
@@ -73,6 +75,7 @@ public class Controller {
     }
 
     public void selectOption(){
+        StringUtils.printSeparatorLines();
         System.out.print("Select an option: ");
         int optionIndex;
         try{

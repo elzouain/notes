@@ -15,7 +15,7 @@ Run `java -jar notes-1.0-SNAPSHOT-jar-with-dependencies.jar`
 
 The database will be stored in same directory as the jar file.
 
-#### Technologies:
+#### Tech Stack:
 - Java
 - Maven
 - SQLite
